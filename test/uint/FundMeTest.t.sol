@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity 0.8.19;
+
 import {Test} from "forge-std/Test.sol";
 import {FundMe} from "../../src/FundMe.sol";
 import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
@@ -99,11 +100,7 @@ contract FundMeTest is Test {
 
         uint256 originalFundMeBalance = address(fundMe).balance; // This is for people running forked tests!
 
-        for (
-            uint160 i = startingFunderIndex;
-            i < numberOfFunders + startingFunderIndex;
-            i++
-        ) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders + startingFunderIndex; i++) {
             // we get hoax from stdcheats
             // prank + deal
             hoax(address(i), STARTING_BALANCE);
@@ -118,15 +115,10 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         assert(address(fundMe).balance == 0);
-        assert(
-            startingFundedeBalance + startingOwnerBalance ==
-                fundMe.getOwner().balance
-        );
+        assert(startingFundedeBalance + startingOwnerBalance == fundMe.getOwner().balance);
 
-        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) +
-            originalFundMeBalance;
-        uint256 totalValueWithdrawn = fundMe.getOwner().balance -
-            startingOwnerBalance;
+        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) + originalFundMeBalance;
+        uint256 totalValueWithdrawn = fundMe.getOwner().balance - startingOwnerBalance;
 
         assert(expectedTotalValueWithdrawn == totalValueWithdrawn);
     }
@@ -137,11 +129,7 @@ contract FundMeTest is Test {
 
         uint256 originalFundMeBalance = address(fundMe).balance; // This is for people running forked tests!
 
-        for (
-            uint160 i = startingFunderIndex;
-            i < numberOfFunders + startingFunderIndex;
-            i++
-        ) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders + startingFunderIndex; i++) {
             // we get hoax from stdcheats
             // prank + deal
             hoax(address(i), STARTING_BALANCE);
@@ -156,15 +144,10 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         assert(address(fundMe).balance == 0);
-        assert(
-            startingFundedeBalance + startingOwnerBalance ==
-                fundMe.getOwner().balance
-        );
+        assert(startingFundedeBalance + startingOwnerBalance == fundMe.getOwner().balance);
 
-        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) +
-            originalFundMeBalance;
-        uint256 totalValueWithdrawn = fundMe.getOwner().balance -
-            startingOwnerBalance;
+        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) + originalFundMeBalance;
+        uint256 totalValueWithdrawn = fundMe.getOwner().balance - startingOwnerBalance;
 
         assert(expectedTotalValueWithdrawn == totalValueWithdrawn);
     }
