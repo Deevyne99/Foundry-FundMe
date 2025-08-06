@@ -9,6 +9,7 @@ error NotOwner();
 
 contract FundMe {
     using PriceConverter for uint256;
+
     AggregatorV3Interface private s_priceFeed;
 
     mapping(address => uint256) public s_addressToAmountFunded;
@@ -31,7 +32,6 @@ contract FundMe {
     }
 
     function getVersion() public view returns (uint256) {
-       
         return s_priceFeed.version();
     }
 
@@ -41,21 +41,22 @@ contract FundMe {
         _;
     }
 
-function getOwner() external view returns (address) {
+    function getOwner() external view returns (address) {
         return i_owner;
     }
 
     //getters
-//get address to amount funded 
-function getAddressToAmountFunded(address funder) public view returns (uint256) {
+    //get address to amount funded
+    function getAddressToAmountFunded(address funder) public view returns (uint256) {
         return s_addressToAmountFunded[funder];
-        }
+    }
 
-        //get Funder
-function getFunder(uint256 index) public view returns (address) {
-        return s_funders[index];}
+    //get Funder
+    function getFunder(uint256 index) public view returns (address) {
+        return s_funders[index];
+    }
 
-function cheaperWithdraw() public onlyOwner {
+    function cheaperWithdraw() public onlyOwner {
         uint256 fundersCount = s_funders.length;
         for (uint256 funderIndex = 0; funderIndex < fundersCount; funderIndex++) {
             address funder = s_funders[funderIndex];
@@ -66,12 +67,10 @@ function cheaperWithdraw() public onlyOwner {
         // transfer
         // payable(msg.sender).transfer(address(this).balance);
 
-
-// call
-         (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
+        // call
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
-    }           
-
+    }
 
     function withdraw() public onlyOwner {
         for (uint256 funderIndex = 0; funderIndex < s_funders.length; funderIndex++) {
@@ -88,7 +87,7 @@ function cheaperWithdraw() public onlyOwner {
         // require(sendSuccess, "Send failed");
 
         // call
-        (bool callSuccess,) = payable(i_owner).call{value: address(this).balance}("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
     }
     // Explainer from: https://solidity-by-example.org/fallback/
